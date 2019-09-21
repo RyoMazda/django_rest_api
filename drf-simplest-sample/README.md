@@ -16,3 +16,21 @@ Policies:
 docker-compose build
 docker-compose run --rm --service-ports web bash
 ```
+
+```bash
+# register admin
+python manage.py createsuperuser
+
+python manage.py check
+
+# test
+python manage.py test polls
+
+# updaete migration file
+python manage.py makemigrations
+
+python manage.py migrate
+
+# run server
+python manage.py runserver 0:8000
+```
