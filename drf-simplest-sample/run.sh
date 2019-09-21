@@ -27,7 +27,7 @@ fi
 # admin
 # python manage.py createsuperuser
 # Ref: https://stackoverflow.com/questions/6244382/how-to-automate-createsuperuser-on-django
-# cat create_admin_user.py | python manage.py shell
+cat create_admin_user.py | python manage.py shell
 
 # Initial Data
 if [[ ${APP_ENV} = "local" ]]; then
