@@ -20,7 +20,7 @@ elif [[ ${APP_ENV} = "gachi" ]]; then
   # migration
   python manage.py migrate
 else
-  echo "APP_ENV (${APP_ENV})が不正です。localまたはgachiと指定して下さい。"
+  echo "APP_ENV (${APP_ENV})is invalid!"
   exit 1
 fi
 
