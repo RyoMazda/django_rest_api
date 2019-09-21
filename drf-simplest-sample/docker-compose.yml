@@ -1,0 +1,21 @@
+version: "3.7"
+
+services:
+  db:
+    image: postgres:11-alpine
+  web:
+    build: .
+    volumes:
+      - .:/work
+    ports:
+      - 8000:8000
+    environment:
+      - DJANGO_SECRET_KEY=dwango
+      - ADMIN_USER_NAME=admin
+      - ADMIN_PASSWORD=pass
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_HOST=db
+    depends_on:
+      - db
+    command: bash run.sh
