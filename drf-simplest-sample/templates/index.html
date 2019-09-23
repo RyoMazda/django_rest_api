@@ -58,6 +58,18 @@
     </b-alert>
   </div>
 
+  <!-- List -->
+  <div class="container my-4">
+    <h2>List of All Books</h2>
+    <ul
+        v-for="book in books"
+        key="book.id"
+        class="mt-4"
+    >
+      <li>#{ book.title } $#{book.price}</li>
+    </ul>
+  </div>
+
   <!-- メインエリア -->
   <div id="main-page">
     <main class="container">
@@ -119,6 +131,7 @@
   const app = new Vue({
     el: '#app',
     data: {
+      books: [],
       form: {
         book: {
           title: '',
@@ -137,7 +150,39 @@
         return this.form.book.id !== undefined
       }
     },
+    created: function () {
+      this.getBooks();
+    },
     methods: {
+      // Retrieve all the books
+      getBooks: function () {
+        this.clearMessages();
+        api({
+          // 登録済みかどうかでHTTPメソッドとエンドポイントを切り替える
+          method: 'get',
+          url: '/books/',
+        })
+          .then(response => {
+            this.books = response.data
+          })
+          .catch(error => {
+            const status = error.response ? error.response.status : 500;
+            if (status === 400) {
+              // バリデーションNG
+              this.message.warnings = [].concat.apply(
+                [], Object.values(error.response.data))
+            } else if (status === 401) {
+              // 認証エラー
+              this.message.error = '認証エラー'
+            } else if (status === 403) {
+              // 権限エラー
+              this.message.error = '権限エラーです。'
+            } else {
+              // その他のエラー
+              this.message.error = '想定外のエラーです。'
+            }
+          })
+      },
       // 登録・更新ボタン押下時に呼び出されるメソッド
       submitSave: function () {
         this.clearMessages()
@@ -154,6 +199,7 @@
           .then(response => {
             this.message.info = this.isCreated ? '更新しました。' : '登録しました。'
             this.form.book = response.data
+            this.getBooks();
           })
           .catch(error => {
             const status = error.response ? error.response.status : 500
