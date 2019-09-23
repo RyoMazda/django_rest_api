@@ -1,5 +1,23 @@
 # frontend
 
+## Develop App on Docker
+### Run development server
+```bash
+docker-compose build && docker-compose up
+# See http://localhost:8080
+# getting inside the container
+docker exec -it street_main_1 sh
+```
+
+### Run test
+```bash
+docker-compose build && docker-compose run --rm main yarn run test:unit
+# with updating snapshot
+yarn run test:unit --updateSnapshot
+```
+
+---
+
 ## Project setup
 ```
 yarn install

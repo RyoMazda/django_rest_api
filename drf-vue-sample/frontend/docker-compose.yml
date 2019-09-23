@@ -1,0 +1,12 @@
+version: '3'
+
+services:
+  main:
+    build: .
+    volumes:
+      - ./public:/work/public
+      - ./src:/work/src
+      - ./tests:/work/tests
+    ports:
+      - 8080:8080
+    tty: true
