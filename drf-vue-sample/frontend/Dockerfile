@@ -6,6 +6,7 @@ WORKDIR $WORKDIR
 COPY package*.json $WORKDIR
 RUN yarn install
 
+COPY .env $WORKDIR
 COPY .browserslistrc $WORKDIR
 COPY tsconfig.json $WORKDIR
 COPY tslint.json $WORKDIR
