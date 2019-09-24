@@ -10,4 +10,11 @@ declare global {
       [elem: string]: any;
     }
   }
+
+  // Custom types //
+  interface Book {
+    id: string;
+    title: string;
+    price: number;
+  }
 }
