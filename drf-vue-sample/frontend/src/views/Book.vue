@@ -7,7 +7,7 @@
           v-for="book in books"
           :key="book.id"
       >
-        <li>{{ book.id }}, {{ book.title }}</li>
+        <li>{{ book.id }}, {{ book.title }}, {{ book.price }}</li>
       </ul>
     </div>
   </div>
@@ -16,33 +16,27 @@
 
 <script lang="ts">
 import { Component, Vue } from 'vue-property-decorator';
+import axios from 'axios';
 
-
-function getBooks(): Book[] {
-  let books = [];
-  for (let i = 0; i < 5; i++) {
-    const book = {
-      id: `sample_id_${i}`,
-      title: 'sample title',
-      price: 10500,
-    };
-    books.push(book)
-  }
-  return books
-}
 
 @Component({})
-export default class About extends Vue {
+export default class Book extends Vue {
   public books: Book[] = [];
 
   // noinspection JSUnusedLocalSymbols
   private created() {
-      this.books = getBooks();
+      this.getBooks();
   }
 
   // --------------------------------------
   // methods
   // --------------------------------------
+  private async getBooks(): Promise<void> {
+    const response = await axios.get(`${process.env.VUE_APP_API_ROOT_URL}books/`);
+    console.log(response);
+    this.books = response.data;
+  }
+
 
 }
 
