@@ -41,7 +41,7 @@
 import Vue from 'vue';
 import { Getter, Action } from 'vuex-class';
 import Component from 'vue-class-component';
-import GlobalMessage from "@/components/GlobalMessage.vue";
+import GlobalMessage from '@/components/GlobalMessage.vue';
 const namespace: string = 'auth';
 
 import api from '@/api';
@@ -59,7 +59,7 @@ export default class BookPage extends Vue {
   };
   public books: BookType[] = [];
   @Getter('isLoggedIn', { namespace }) public isLoggedIn: boolean | undefined;
-  @Action('login', { namespace }) public login: any;
+  @Action('login', { namespace }) private login: any;
   @Action('logout', { namespace }) public logout: any;
 
   // noinspection JSUnusedLocalSymbols
@@ -76,7 +76,6 @@ export default class BookPage extends Vue {
     const response = await api.getBooks();
     this.books = response.data;
   }
-
   public submitLogin(): void {
     this.login(this.form);
     this.getBooks();

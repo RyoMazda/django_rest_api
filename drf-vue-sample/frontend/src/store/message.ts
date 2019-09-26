@@ -32,7 +32,6 @@ const mutations: MutationTree<MessageState> = {
     s.warnings.push(warning);
   },
   clear(s: MessageState): void {
-    console.log('clear mutation');
     s.error = '';
     s.warnings = [];
     s.info = '';
@@ -51,9 +50,8 @@ const actions: ActionTree<MessageState, RootState> = {
     commit('addWarningMessage', warning);
   },
   clearMessages({ commit }: any): void {
-    console.log('clear action');
     commit('clear');
-  }
+  },
 };
 
 

@@ -1,6 +1,5 @@
 import { ActionTree, GetterTree, Module, MutationTree } from 'vuex';
 
-// import router from '../router';
 import api from '@/api';
 
 
@@ -24,17 +23,13 @@ const getters: GetterTree<AuthState, RootState> = {
 const actions: ActionTree<AuthState, RootState> = {
   async login({ commit }: any, form: LoginForm): Promise<void> {
     const response = await api.login(form.username, form.password);
-    console.log(response);
-
     const token = response.data.access;
     commit('setToken', token);
     window.localStorage.setItem(TOKEN_KEY, token);
-    // await router.push('/');
   },
   logout({ commit }): any {
     commit('setToken', null);
     window.localStorage.removeItem(TOKEN_KEY);
-    // router.push('/index.html');
   },
 };
 

@@ -17,19 +17,18 @@ api.interceptors.response.use(
     const status = error.response ? error.response.status : 500;
 
     if (status === 400) {  // Validation Error
-      let message = error.response ? error.response.data : 'Status 400';
+      const message = error.response ? error.response.data : 'Status 400';
       await store.dispatch('message/addWarningMessage', message);
     } else if (status === 401) {  // Authentication Error
-      let message = 'Authentication Error!';
       await store.dispatch('auth/logout');
-      await store.dispatch('message/setErrorMessage', message);
+      await store.dispatch('message/setErrorMessage', 'Authentication Error!');
     } else if (status === 403) {  // Authorization Error
       await store.dispatch('message/setErrorMessage', 'Authorization Error');
     } else {
       await store.dispatch('message/setErrorMessage', 'There\'s something wrong with you!');
     }
 
-    return Promise.reject(error)
+    return Promise.reject(error);
   },
 );
 
