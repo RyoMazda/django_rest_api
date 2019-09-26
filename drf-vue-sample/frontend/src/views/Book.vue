@@ -1,45 +1,72 @@
 <template>
   <div>
-    <h1>Book</h1>
-    <div class="container">
-      <h2>Book List</h2>
-      <ul
-          v-for="book in books"
-          :key="book.id"
-      >
-        <li>{{ book.id }}, {{ book.title }}, {{ book.price }}</li>
-      </ul>
+    <div v-if="!isLoggedIn">
+
+      <h1>Please Login First</h1>
+      <div class="form">
+        <div class="form-group">
+          <label>User name: </label>
+          <input type="text" v-model="form.username" required/>
+        </div>
+        <div class="form-group">
+          <label>Password: </label>
+          <input type="text" v-model="form.password" required/>
+        </div>
+        <button @click="login(form)">Login</button>
+      </div>
+
+    </div>
+    <div v-else>
+
+      <h1>Book</h1>
+      <div class="container">
+        <h2>Book List</h2>
+        <ul
+            v-for="book in books"
+            :key="book.id"
+        >
+          <li>{{ book.id }}, {{ book.title }}, {{ book.price }}</li>
+        </ul>
+      </div>
+
+      <button @click="logout">Logout</button>
+
     </div>
   </div>
 </template>
 
 
 <script lang="ts">
-import { Component, Vue } from 'vue-property-decorator';
-import axios from 'axios';
+import Vue from 'vue';
+import { Getter, Action } from 'vuex-class';
+import Component from 'vue-class-component';
+const namespace: string = 'auth';
+
+import api from '@/api';
 
 
-@Component({})
+@Component
 export default class Book extends Vue {
+  public form: LoginForm = {
+    username: '',
+    password: '',
+  };
   public books: Book[] = [];
+  @Getter('isLoggedIn', { namespace }) public isLoggedIn: boolean | undefined;
+  @Action('login', { namespace }) public login: any;
+  @Action('logout', { namespace }) public logout: any;
 
   // noinspection JSUnusedLocalSymbols
   private created() {
-      this.getBooks();
+    this.getBooks();
   }
 
   // --------------------------------------
   // methods
   // --------------------------------------
   private async getBooks(): Promise<void> {
-    const response = await axios.get(`${process.env.VUE_APP_API_ROOT_URL}books/`);
-    console.log(response);
+    const response = await api.getBooks();
     this.books = response.data;
   }
-
-
 }
-
-console.log('pigimaru');
-console.log(process.env.VUE_APP_BACKEND_HOST);
 </script>

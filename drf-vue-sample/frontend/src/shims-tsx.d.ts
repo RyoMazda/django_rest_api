@@ -12,6 +12,20 @@ declare global {
   }
 
   // Custom types //
+  // Custom types //
+  export interface RootState {
+    version: string;
+  }
+
+  export interface AuthState {
+    token: string | null;
+  }
+
+  interface LoginForm {
+    username: string;
+    password: string;
+  }
+
   interface Book {
     id: string;
     title: string;
