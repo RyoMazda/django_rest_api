@@ -8,8 +8,13 @@ const api = axios.create({
   },
 });
 
+interface LoginData {
+  access: string;
+  refresh: string;
+}
+
 export default {
-  login(username: string, password: string): AxiosPromise<any> {
+  login(username: string, password: string): AxiosPromise<LoginData> {
     return api.post(
       `auth/jwt/create/`, {
         username,
@@ -17,7 +22,7 @@ export default {
       });
   },
 
-  getBooks(): AxiosPromise<any> {
+  getBooks(): AxiosPromise<BookType[]> {
     return api.get('books/');
   },
 };

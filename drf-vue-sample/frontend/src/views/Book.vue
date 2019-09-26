@@ -46,19 +46,21 @@ import api from '@/api';
 
 
 @Component
-export default class Book extends Vue {
+export default class BookPage extends Vue {
   public form: LoginForm = {
     username: '',
     password: '',
   };
-  public books: Book[] = [];
+  public books: BookType[] = [];
   @Getter('isLoggedIn', { namespace }) public isLoggedIn: boolean | undefined;
   @Action('login', { namespace }) public login: any;
   @Action('logout', { namespace }) public logout: any;
 
   // noinspection JSUnusedLocalSymbols
   private created() {
-    this.getBooks();
+    if (this.isLoggedIn) {
+      this.getBooks();
+    }
   }
 
   // --------------------------------------

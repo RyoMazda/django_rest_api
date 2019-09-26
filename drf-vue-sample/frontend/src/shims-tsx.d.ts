@@ -26,7 +26,7 @@ declare global {
     password: string;
   }
 
-  interface Book {
+  interface BookType {
     id: string;
     title: string;
     price: number;
