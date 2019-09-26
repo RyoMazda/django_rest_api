@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Vuex, { StoreOptions } from 'vuex';
 
 import auth from './auth';
+import message from './message';
 
 Vue.use(Vuex);
 
@@ -11,6 +12,7 @@ const store: StoreOptions<RootState> = {
   },
   modules: {
     auth,
+    message,
   },
 };
 

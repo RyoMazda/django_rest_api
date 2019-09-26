@@ -1,4 +1,6 @@
-import axios, { AxiosPromise } from 'axios';
+import axios, { AxiosPromise, AxiosResponse, AxiosError } from 'axios';
+import store from '@/store';
+
 
 const api = axios.create({
   baseURL: process.env.VUE_APP_API_ROOT_URL,
@@ -7,6 +9,30 @@ const api = axios.create({
   'Content-Type': 'application/json',
   },
 });
+
+
+api.interceptors.response.use(
+  (response: AxiosResponse): AxiosResponse => response,
+  async (error: AxiosError): Promise<any> => {
+    const status = error.response ? error.response.status : 500;
+
+    if (status === 400) {  // Validation Error
+      let message = error.response ? error.response.data : 'Status 400';
+      await store.dispatch('message/addWarningMessage', message);
+    } else if (status === 401) {  // Authentication Error
+      let message = 'Authentication Error!';
+      await store.dispatch('auth/logout');
+      await store.dispatch('message/setErrorMessage', message);
+    } else if (status === 403) {  // Authorization Error
+      await store.dispatch('message/setErrorMessage', 'Authorization Error');
+    } else {
+      await store.dispatch('message/setErrorMessage', 'There\'s something wrong with you!');
+    }
+
+    return Promise.reject(error)
+  },
+);
+
 
 interface LoginData {
   access: string;

@@ -21,6 +21,12 @@ declare global {
     token: string | null;
   }
 
+  export interface MessageState {
+    error: string;
+    warnings: string[];
+    info: string;
+  }
+
   interface LoginForm {
     username: string;
     password: string;

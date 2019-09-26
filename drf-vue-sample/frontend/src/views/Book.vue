@@ -1,7 +1,8 @@
 <template>
   <div>
-    <div v-if="!isLoggedIn">
+    <GlobalMessage></GlobalMessage>
 
+    <div v-if="!isLoggedIn">
       <h1>Please Login First</h1>
       <div class="form">
         <div class="form-group">
@@ -12,7 +13,7 @@
           <label>Password: </label>
           <input type="text" v-model="form.password" required/>
         </div>
-        <button @click="login(form)">Login</button>
+        <button @click="submitLogin">Login</button>
       </div>
 
     </div>
@@ -40,12 +41,17 @@
 import Vue from 'vue';
 import { Getter, Action } from 'vuex-class';
 import Component from 'vue-class-component';
+import GlobalMessage from "@/components/GlobalMessage.vue";
 const namespace: string = 'auth';
 
 import api from '@/api';
 
 
-@Component
+@Component({
+  components: {
+    GlobalMessage,
+  },
+})
 export default class BookPage extends Vue {
   public form: LoginForm = {
     username: '',
@@ -69,6 +75,11 @@ export default class BookPage extends Vue {
   private async getBooks(): Promise<void> {
     const response = await api.getBooks();
     this.books = response.data;
+  }
+
+  public submitLogin(): void {
+    this.login(this.form);
+    this.getBooks();
   }
 }
 </script>
