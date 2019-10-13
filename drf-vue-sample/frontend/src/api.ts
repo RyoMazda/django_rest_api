@@ -47,6 +47,11 @@ export default {
       });
   },
 
+  reload(): AxiosPromise<any> {
+    console.log('api.reload');
+    return api.get('auth/users/me/');
+  },
+
   getBooks(): AxiosPromise<BookType[]> {
     return api.get('books/');
   },

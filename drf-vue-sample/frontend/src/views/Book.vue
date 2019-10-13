@@ -1,6 +1,7 @@
 <template>
   <div>
     <GlobalMessage></GlobalMessage>
+    <button @click="reloadTest">reload test</button>
 
     <div v-if="!isLoggedIn">
       <h1>Please Login First</h1>
@@ -61,6 +62,7 @@ export default class BookPage extends Vue {
   @Getter('isLoggedIn', { namespace }) public isLoggedIn: boolean | undefined;
   @Action('login', { namespace }) private login: any;
   @Action('logout', { namespace }) public logout: any;
+  @Action('reload', { namespace }) public reloadTest: any;
 
   // noinspection JSUnusedLocalSymbols
   private created() {

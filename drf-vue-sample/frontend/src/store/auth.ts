@@ -31,6 +31,13 @@ const actions: ActionTree<AuthState, RootState> = {
     commit('setToken', null);
     window.localStorage.removeItem(TOKEN_KEY);
   },
+  reload({ commit }): any {
+    return api.reload().then((res): void => {
+      const user = res.data;
+      console.log('auth.reload!');
+      console.log(res);
+    });
+  },
 };
 
 
