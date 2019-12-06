@@ -1,0 +1,25 @@
+version: "3.7"
+
+services:
+  db:
+    image: postgres:11-alpine
+    environment:
+      - POSTGRES_PASSWORD=hangure
+  web:
+    build: .
+    volumes:
+      - .:/work
+    ports:
+      - 8000:8000
+    environment:
+      - APP_ENV=local
+      - DJANGO_SECRET_KEY=dwango
+      - ADMIN_USER_NAME=admin
+      - ADMIN_PASSWORD=pass
+      - DB_NAME=postgres
+      - DB_USER=postgres
+      - DB_HOST=db
+      - DB_PASSWORD=hangure
+    depends_on:
+      - db
+    command: bash run.sh
